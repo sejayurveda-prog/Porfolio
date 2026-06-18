@@ -5,15 +5,14 @@ import { Play, Pause } from 'lucide-react';
 export default function Hero() {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [videoSrc, setVideoSrc] = useState('https://www.w3schools.com/html/mov_bbb.mp4');
-  const [isMobile, setIsMobile] = useState(false);
+  const [showPlayButton, setShowPlayButton] = useState(true);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [videoSrc, setVideoSrc] = useState('/hero-bg.mp4');
 
-  // Responsive check
+  // Responsive check – update isMobile on resize
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -22,18 +21,23 @@ export default function Hero() {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
+        setShowPlayButton(true);
       } else {
+        // Un‑mute and set volume
         videoRef.current.muted = false;
         videoRef.current.volume = 1;
-        videoRef.current.play().catch((err) => console.log('Video play error:', err));
+        videoRef.current.play().catch(err => console.log('Video play error:', err));
+        // Hide button on mobile during playback
+        if (isMobile) setShowPlayButton(false);
       }
       setIsPlaying(!isPlaying);
     }
   };
 
-  // When the video ends naturally, reset state so text grows back automatically
   const handleVideoEnded = () => {
     setIsPlaying(false);
+    setShowPlayButton(true);
+    setVideoEnded(true);
   };
 
   const handleVideoError = () => {
@@ -82,14 +86,14 @@ export default function Hero() {
       {/* Background Video (Opacity increases when playing, resets on ended) */}
       <video
         ref={videoRef}
-        loop={false} // Allow video to end so handleVideoEnded can trigger
-        
+        loop={false}
+        muted
         playsInline
         onError={handleVideoError}
         onEnded={handleVideoEnded}
         className={`absolute top-0 left-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${
           isPlaying ? 'opacity-85' : 'opacity-40'
-        }`}
+        } ${videoEnded ? 'scale-110' : ''}`}
         src={videoSrc}
       />
 
@@ -119,16 +123,17 @@ export default function Hero() {
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.2 }}
-            className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-accent mb-4 block"
+            className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-accent block"
+            style={{ marginBottom: isMobile ? '2rem' : '1rem' }}
           >
             Digital Portfolio
           </motion.span>
-          
           <motion.h1
             initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            animate={{ y: isPlaying && isMobile ? -30 : 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.37 }}
             className="text-[8vw] md:text-[4.8vw] font-[900] leading-[0.95] tracking-tighter text-white uppercase"
+            style={{ marginTop: isMobile ? '2rem' : '0' }}
           >
             Hi, I'm a <br />
             <span className="text-stroke font-black block mt-2.5 text-white">
@@ -172,36 +177,40 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right Side: Play Reel Control */}
-        <div className="col-span-1 md:col-span-4 flex flex-col items-center justify-end md:justify-center h-full pb-20 md:pb-0 z-20">
+        {/* Right Side: Play Reel Control – only show when button should be visible */}
+        {showPlayButton && (
           <motion.div
             variants={playBtnVariants}
             initial="initial"
             animate="animate"
-            className="flex flex-col items-center group cursor-pointer"
-            onClick={handlePlayToggle}
+            className="col-span-1 md:col-span-4 flex flex-col items-center justify-end md:justify-center h-full pb-20 md:pb-0 z-20"
           >
-            {/* Play Button Outer Ring */}
-            <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center glass transition-all duration-500 group-hover:scale-110 group-hover:border-accent/40 group-hover:shadow-[0_0_40px_rgba(255,42,42,0.4)]">
-              {/* Inner Pulsing Circle */}
-              <div className="absolute inset-2 rounded-full bg-dark/80 group-hover:bg-dark border border-white/5 transition-all duration-300" />
-              
-              {/* Play/Pause Icon */}
-              <div className="relative z-10 text-white transition-transform duration-300 group-hover:scale-105">
-                {isPlaying ? (
-                  <Pause size={28} className="fill-white" />
-                ) : (
-                  <Play size={28} className="fill-white translate-x-0.5" />
-                )}
+            <div
+              className="flex flex-col items-center group cursor-pointer"
+              onClick={handlePlayToggle}
+            >
+              {/* Play Button Outer Ring */}
+              <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center glass transition-all duration-500 group-hover:scale-110 group-hover:border-accent/40 group-hover:shadow-[0_0_40px_rgba(255,42,42,0.4)]">
+                {/* Inner Pulsing Circle */}
+                <div className="absolute inset-2 rounded-full bg-dark/80 group-hover:bg-dark border border-white/5 transition-all duration-300" />
+                
+                {/* Play/Pause Icon */}
+                <div className="relative z-10 text-white transition-transform duration-300 group-hover:scale-105">
+                  {isPlaying ? (
+                    <Pause size={28} className="fill-white" />
+                  ) : (
+                    <Play size={28} className="fill-white translate-x-0.5" />
+                  )}
+                </div>
               </div>
+              
+              {/* Reel label */}
+              <span className="mt-4 text-[10px] md:text-xs font-mono tracking-[0.25em] text-white/60 group-hover:text-accent transition-colors duration-300 uppercase">
+                {isPlaying ? 'PAUSE' : 'PLAY REEL'}
+              </span>
             </div>
-            
-            {/* Reel label */}
-            <span className="mt-4 text-[10px] md:text-xs font-mono tracking-[0.25em] text-white/60 group-hover:text-accent transition-colors duration-300 uppercase">
-              {isPlaying ? 'PAUSE' : 'PLAY REEL'}
-            </span>
           </motion.div>
-        </div>
+        )}
       </div>
 
       {/* Bottom Center Scroll Indicator (Desktop only) */}

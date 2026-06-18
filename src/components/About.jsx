@@ -64,6 +64,12 @@ const StarIcon = ({ className }) => (
 );
 
 export default function About() {
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+  React.useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <section id="about" className="relative w-full min-h-screen bg-accent text-white flex flex-col justify-between pt-24 overflow-hidden">
       
@@ -73,7 +79,7 @@ export default function About() {
       <StarIcon className="absolute bottom-40 right-12 w-6 h-6 text-black/20 animate-pulse-slow" />
 
       {/* Main Two-Column Content */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center flex-grow">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center flex-grow">
         
         {/* Left Column: Lanyard & Employee ID Badge */}
         <div className="lg:col-span-5 flex flex-col items-center justify-start relative pt-12 min-h-[500px]">
@@ -88,8 +94,10 @@ export default function About() {
           
           {/* Floating ID Pass Card */}
           <motion.div
-            initial={{ y: 20, rotate: -3 }}
-            whileHover={{ y: 5, rotate: -1, scale: 1.02 }}
+            drag={isMobile ? "x" : false}
+            dragConstraints={{ left: -30, right: 30 }}
+            initial={isMobile ? { y: 10, rotate: -2 } : { y: 20, rotate: -3 }}
+            whileHover={isMobile ? { y: 3, rotate: -1, scale: 1.01 } : { y: 5, rotate: -1, scale: 1.02 }}
             transition={{ type: 'spring', stiffness: 200, damping: 18 }}
             className="relative w-72 h-[420px] bg-dark-card border border-white/10 rounded-2xl p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] flex flex-col justify-between z-10 select-none mt-14"
           >
@@ -111,7 +119,7 @@ export default function About() {
               <img
                 src="/profile.png"
                 alt="Sumit Profile"
-                className="w-full h-full object-cover rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500"
+                className="w-full h-full object-cover rounded-lg transition-all duration-500"
               />
             </div>
 
@@ -158,7 +166,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-[12vw] md:text-[6vw] font-[900] text-black leading-none tracking-tight uppercase"
+            className="text-[12vw] md:text-[6vw] font-[900] text-black leading-none tracking-tight uppercase mt-2 sm:mt-0"
           >
             Hello!
           </motion.h2>
