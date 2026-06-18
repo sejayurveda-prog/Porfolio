@@ -5,7 +5,7 @@ import { Play, Pause } from 'lucide-react';
 export default function Hero() {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [videoSrc, setVideoSrc] = useState('/hero-bg.mp4');
+  const [videoSrc, setVideoSrc] = useState('https://www.w3schools.com/html/mov_bbb.mp4');
   const [isMobile, setIsMobile] = useState(false);
 
   // Responsive check
