@@ -11,11 +11,11 @@ const GoogleIcon = (props) => (
 
 const projectsList = [
   {
-    title: 'FMS (Flow Management System)',
-    category: 'MIS & Reporting',
-    tag: 'React / Node.js',
-    image: '/projects/mis-reporting.jpg',
-    desc: 'Consolidated distributed enterprise databases into a single automated pipeline, reducing manual reporting cycles by 92%.',
+    title: 'IMS Inventory management system',
+    category: 'Inventory Management',
+    tag: 'HTML / CSS / JavaScript / Google appscript',
+    image: '/projects/Screenshot 2026-06-17 151209.jpg',
+    desc: 'Developed a web-based Inventory Management System using Google Apps Script, Google Sheets, HTML, CSS, and JavaScript to manage 5,000+ inventory records and 1,000+ SKUs. Automated stock tracking, reporting, and inventory analytics, reducing manual effort by 70% and improving inventory accuracy to 98%+ through real-time dashboards and process automation.',
     googleLink: 'https://docs.google.com',
     dashboardLink: 'https://dashboard.example.com',
     videoLink: 'https://youtube.com'
@@ -26,94 +26,64 @@ const projectsList = [
     tag: 'Python / MongoDB',
     image: '/projects/etl-sync.jpg',
     desc: 'Developed a full-cycle Order-to-Delivery Flow Management System for a garment manufacturing business that digitizes every stage from order intake to final delivery — covering stock check, estimation, payment collection, invoice generation, packing, dispatch, and delivery confirmation. The system features a dual-channel WhatsApp automation layer (CloudWhatsApp API) that simultaneously notifies internal assignees at each stage transition and keeps customers updated with real-time order status — eliminating manual follow-ups on both ends. Built on Google Apps Script with a Google Sheets backend and a custom web-based interface with role-based access control.',
-    googleLink: 'https://drive.google.com',
-    dashboardLink: 'https://analytics.example.com',
+    googleLink: 'https://docs.google.com/spreadsheets/d/1xTvMhLGNuRJ0H63EZHPL0s4oQD_LrT5JigFD_EPUXww/edit?usp=sharing',
+    dashboardLink: 'https://script.google.com/macros/s/AKfycbze4INUPBaa44Yin6RXkMAD5vqdoPIAKmXE5kUEWos-GMCt8pS69wWaLIgSKfFvqGLE/exec',
     videoLink: 'https://youtube.com'
   },
   {
-    title: 'Real-time Inventory Monitor',
-    category: 'Logistics Analytics',
-    tag: 'React / WebSockets',
-    image: '/projects/inventory.jpg',
+    title: 'PRODUCTION MANAGEMENT SYSTEM',
+    category: 'PRODUCTION MANAGEMENT',
+    tag: 'GOOGLE APPSCRIPT / GOOGLE SHEETS / HTML / CSS / JAVASCRIPT',
+    image: '/projects/Screenshot 2026-06-17 152121.jpg',
     desc: 'Interactive map displaying warehouse status updates, delivery schedules, and inventory alerts with custom data visualizers.',
-    googleLink: 'https://docs.google.com',
-    dashboardLink: 'https://map.example.com',
+    googleLink: 'https://docs.google.com/spreadsheets/d/1ZtZQL043DL-Xqf5ErU4b5hJ_CBecFGbMp0lbYGbqurE/edit?usp=sharing',
+    dashboardLink: 'https://script.google.com/macros/s/AKfycbwPb6K9ql6xYKVvBMzN7TdJxUxb0_F3y8xmulClpbit-S2dAifCVz9nNn5xA-WzHwpMWg/exec',
     videoLink: 'https://youtube.com'
   },
   {
-    title: 'Customer Churn Predictor',
-    category: 'Predictive Analytics',
+    title: 'CRM',
+    category: 'SALES LEAD MANAGEMENT',
     tag: 'Python / SQL',
-    image: '/projects/churn.jpg',
-    desc: 'Built custom models assessing user engagement parameters, successfully predicting account cancellations with 88% precision.',
+    image: '/projects/crm.png',
+    desc: 'Designed and developed a web-based CRM Lead Management System using Google Sheets, Google Apps Script, HTML, CSS, and JavaScript to streamline lead tracking and customer relationship management. The system centralized lead data, automated lead assignment and follow-ups, tracked lead status across the sales pipeline, and provided real-time dashboards for monitoring conversions and team performance. Automated workflows reduced manual effort, improved response time, and enhanced lead conversion efficiency through better visibility and management of customer interactions.',
     googleLink: 'https://drive.google.com',
     dashboardLink: 'https://churn-detector.example.com',
     videoLink: 'https://youtube.com'
   },
   {
-    title: 'Google Sheets API Sync Engine',
-    category: 'Automation Scripting',
-    tag: 'Apps Script / REST',
-    image: '/projects/sheets-sync.jpg',
-    desc: 'Configured scheduled background tasks that automatically synchronize web analytics metrics directly into Google Sheets dashboards.',
+    title: 'SEJ AYURVEDA - E-COMMERCE and CONSULTATION WEBSITE',
+    category: 'WEB DEVELOPMENT',
+    tag: 'HTML / JAVASCRIPT / CSS / NODEJS / EXPRESS / GOOGLE SHEETS',
+    image: '/projects/Screenshot 2026-06-18 112430.png',
+    desc: 'Developed a modern and user-friendly Ayurveda website for SEJ Ayurveda to showcase Ayurvedic products, wellness solutions, and healthcare services. The platform provides detailed product information, online inquiries, customer engagement features, and a responsive design for seamless access across devices. The website enhances brand visibility, improves customer experience, and supports digital growth through an organized and informative online presence.',
     googleLink: 'https://docs.google.com',
-    dashboardLink: 'https://sheets.google.com',
+    dashboardLink: 'https://idyllic-taffy-36d984.netlify.app/',
     videoLink: 'https://youtube.com'
   },
+  //{
+    //title: 'Enterprise Payroll Compiler',
+    //category: 'Financial Automations',
+    //tag: 'Node.js / ExcelJS',
+    //image: '/projects/payroll.jpg',
+    //desc: 'Consolidated attendance logs and tax structures to auto-generate customized salary slips in formatted Excel files within seconds.',
+    //googleLink: 'https://drive.google.com',
+    //dashboardLink: 'https://payroll-portal.example.com',
+    //videoLink: 'https://youtube.com'
+  //},
   {
-    title: 'Enterprise Payroll Compiler',
-    category: 'Financial Automations',
-    tag: 'Node.js / ExcelJS',
-    image: '/projects/payroll.jpg',
-    desc: 'Consolidated attendance logs and tax structures to auto-generate customized salary slips in formatted Excel files within seconds.',
-    googleLink: 'https://drive.google.com',
-    dashboardLink: 'https://payroll-portal.example.com',
-    videoLink: 'https://youtube.com'
-  },
-  {
-    title: 'Microservices Sync Manager',
-    category: 'Infrastructure',
-    tag: 'Express / PostgreSQL',
-    image: '/projects/sync-manager.jpg',
-    desc: 'Maintained status records of background automation bots, triggering warning notifications in Slack if a script halts.',
-    googleLink: 'https://docs.google.com',
-    dashboardLink: 'https://console.example.com',
-    videoLink: 'https://youtube.com'
-  },
-  {
-    title: 'Retail Performance Visualizer',
-    category: 'Business Intelligence',
-    tag: 'React / Chart.js',
-    image: '/projects/retail-bi.jpg',
-    desc: 'Visualized regional sales trends, brand performances, and profit margins, optimizing stock configurations for retail partners.',
-    googleLink: 'https://drive.google.com',
-    dashboardLink: 'https://bi.example.com',
-    videoLink: 'https://youtube.com'
-  },
-  {
-    title: 'Sales Lead Automated Dispatcher',
-    category: 'Workflow Automation',
-    tag: 'Node.js / Twilio',
-    image: '/projects/dispatcher.jpg',
-    desc: 'Monitored landing page submissions and auto-routed leads to sales representatives based on availability, increasing reply times.',
-    googleLink: 'https://drive.google.com',
-    dashboardLink: 'https://leads.example.com',
-    videoLink: 'https://youtube.com'
-  },
-  {
-    title: 'E-commerce Live Control Board',
-    category: 'Analytics Hub',
-    tag: 'React / Tailwind',
-    image: '/projects/ecommerce.jpg',
-    desc: 'Maintained real-time logs of active cart additions, checkouts, and promotional code redemptions in a clean modular layout.',
-    googleLink: 'https://docs.google.com',
-    dashboardLink: 'https://store-admin.example.com',
+    title: 'E-COMMERCE SUMMARY SYSTEM',
+    category: 'Analytics SUMMARY',
+    tag: 'GOOGLE SHEETS / GOOGLE APPSCRIPT / HTML / CSS / JAVASCRIPT',
+    image: '/projects/Screenshot 2026-06-18 150839.png',
+    desc: 'Designed and developed a web-based E-Commerce Website Report Summary Maker System to automate the generation of business and sales reports from e-commerce data. The system collects and processes order, sales, customer, inventory, and revenue data, transforming it into interactive dashboards and summarized reports. It provides real-time insights into sales performance, product trends, customer behavior, and inventory status through automated analytics and visualizations. The solution significantly reduces manual reporting effort, improves data accuracy, and enables faster business decision-making by delivering comprehensive reports in a user-friendly interface.',
+    googleLink: 'https://docs.google.com/spreadsheets/d/1XXe0b6Bw2UN59AhyZDhsh4YTj0YKC0NS8GTBuyYnobM/edit?usp=sharing',
     videoLink: 'https://youtube.com'
   }
 ];
 
 export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [expandedIdx, setExpandedIdx] = useState(null);
   const [visibleCards, setVisibleCards] = useState(3);
   const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
   const containerRef = useRef(null);
@@ -148,7 +118,7 @@ export default function Projects() {
         }
         return prev + 1;
       });
-    }, 1500); // Rotate every 1.5 seconds
+    }, 5000); // Rotate every 5 seconds
 
     return () => clearInterval(interval);
   }, [isAutoplayPaused, maxIndex]);
@@ -227,7 +197,7 @@ export default function Projects() {
             className="flex"
             style={{ width: `${(totalSlides / visibleCards) * 100}%` }}
           >
-            {projectsList.map((project, idx) => (
+            {projectsList.filter(p => p.title !== 'Order to Delivery Flow Management System').map((project, idx) => (
               <div
                 key={idx}
                 className="px-4"
@@ -264,23 +234,31 @@ export default function Projects() {
                   {/* Bottom Text & Link Content */}
                   <div className="p-8 flex flex-col justify-between flex-grow text-left">
                     <div>
-                      <span className="text-[10px] font-mono tracking-widest text-accent uppercase block mb-2">
-                        {project.tag}
-                      </span>
                       <h3 className="text-lg md:text-xl font-black uppercase text-white tracking-tight leading-tight group-hover:text-accent transition-colors duration-300 mb-3">
                         {project.title}
                       </h3>
-                      <p className="text-xs text-white/60 leading-relaxed font-light line-clamp-3">
-                        {project.desc}
-                      </p>
+                        {/* Description with toggle */}
+                        <p className={`text-xs text-white/60 leading-relaxed font-light ${expandedIdx === idx ? '' : 'line-clamp-2'}`}>
+                          {project.desc}
+                          {expandedIdx !== idx && (
+                            <button className="text-accent underline ml-1" onClick={() => setExpandedIdx(idx)}>
+                              Know more
+                            </button>
+                          )}
+                          {expandedIdx === idx && (
+                            <button className="text-accent underline ml-1" onClick={() => setExpandedIdx(null)}>
+                              Hide
+                            </button>
+                          )}
+                        </p>
                     </div>
 
                     {/* Footer Row: Meta & Interactive link buttons */}
                     <div className="pt-4 border-t border-white/5 mt-4 flex items-center justify-between">
                       {/* Interactive Link Icons */}
                       <div className="flex items-center space-x-2.5">
-                        {/* Google Doc/Drive Link */}
-                        {project.googleLink && (
+                        {/* Google Doc/Drive Link (omit for SEJ AYURVEDA) */}
+                        {project.googleLink && project.title !== 'SEJ AYURVEDA - E-COMMERCE and CONSULTATION WEBSITE' && (
                           <a
                             href={project.googleLink}
                             target="_blank"
@@ -291,7 +269,6 @@ export default function Projects() {
                             <GoogleIcon className="w-3.5 h-3.5" />
                           </a>
                         )}
-
                         {/* Live Dashboard/Web link */}
                         {project.dashboardLink && (
                           <a
@@ -304,9 +281,8 @@ export default function Projects() {
                             <ExternalLink size={14} />
                           </a>
                         )}
-
-                        {/* Video Walkthrough/Demo */}
-                        {project.videoLink && (
+                        {/* Video Walkthrough/Demo (omit for SEJ AYURVEDA) */}
+                        {project.videoLink && project.title !== 'SEJ AYURVEDA - E-COMMERCE and CONSULTATION WEBSITE' && (
                           <a
                             href={project.videoLink}
                             target="_blank"

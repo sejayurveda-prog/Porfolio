@@ -23,6 +23,8 @@ export default function Hero() {
       if (isPlaying) {
         videoRef.current.pause();
       } else {
+        videoRef.current.muted = false;
+        videoRef.current.volume = 1;
         videoRef.current.play().catch((err) => console.log('Video play error:', err));
       }
       setIsPlaying(!isPlaying);
@@ -81,7 +83,7 @@ export default function Hero() {
       <video
         ref={videoRef}
         loop={false} // Allow video to end so handleVideoEnded can trigger
-        muted
+        
         playsInline
         onError={handleVideoError}
         onEnded={handleVideoEnded}
