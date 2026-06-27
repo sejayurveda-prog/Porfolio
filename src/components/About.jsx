@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useEffect } from 'react';
+import { motion, useAnimation, useInView } from 'framer-motion';
 
 // Custom SVG Icons for Skills to ensure pixel-perfect rendering and zero network dependencies
 const ReactLogo = () => (
@@ -70,6 +70,37 @@ export default function About() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Card animation controls for mobile scroll-in effect
+  const cardRef = useRef(null);
+  const cardControls = useAnimation();
+  const isCardInView = useInView(cardRef, { once: false, amount: 0.5 });
+  const [isStraightening, setIsStraightening] = React.useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      if (isCardInView) {
+        // Pause CSS float so framer-motion can control rotation cleanly
+        setIsStraightening(true);
+        cardControls.start({
+          y: 0,
+          opacity: 1,
+          scale: 1.06,
+          rotate: 0,
+          transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+        }).then(() => {
+          cardControls.start({
+            scale: 1,
+            rotate: -2.5,
+            transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 },
+          }).then(() => {
+            // Resume CSS float after settling back to tilt
+            setIsStraightening(false);
+          });
+        });
+      }
+    }
+  }, [isCardInView, isMobile, cardControls]);
   return (
     <section id="about" className="relative w-full min-h-screen bg-accent text-white flex flex-col justify-between pt-24 overflow-hidden">
       
@@ -94,12 +125,44 @@ export default function About() {
           
           {/* Floating ID Pass Card */}
           <motion.div
+            ref={cardRef}
             drag={isMobile ? "x" : false}
-            dragConstraints={{ left: -30, right: 30 }}
-            initial={isMobile ? { y: 10, rotate: -2 } : { y: 20, rotate: -3 }}
-            whileHover={isMobile ? { y: 3, rotate: -1, scale: 1.01 } : { y: 5, rotate: -1, scale: 1.02 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-            className="relative w-72 h-[420px] bg-dark-card border border-white/10 rounded-2xl p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] flex flex-col justify-between z-10 select-none mt-14"
+            dragConstraints={{ left: -50, right: 50 }}
+            dragElastic={0.15}
+            dragMomentum={false}
+            initial={{ y: 80, opacity: 0, rotate: -2.5 }}
+            animate={
+              isMobile
+                ? cardControls
+                : {
+                    y: [0, -14, 0],
+                    rotate: -2.5,
+                    opacity: 1,
+                  }
+            }
+            whileInView={!isMobile ? { y: [0, -14, 0], opacity: 1 } : undefined}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={
+              isMobile
+                ? { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+                : {
+                    y: { duration: 3.8, repeat: Infinity, ease: 'easeInOut' },
+                    opacity: { duration: 0.6 },
+                    rotate: { duration: 0.6 },
+                  }
+            }
+            whileHover={
+              !isMobile
+                ? {
+                    scale: 1.07,
+                    rotate: 0,
+                    y: -18,
+                    transition: { duration: 0.4, ease: 'easeOut' },
+                  }
+                : undefined
+            }
+            whileTap={{ scale: 0.96 }}
+            className={`${isMobile && !isStraightening ? 'float-card' : ''} relative w-72 h-[420px] bg-dark-card border border-white/10 rounded-2xl p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] flex flex-col justify-between z-10 select-none mt-14 cursor-grab active:cursor-grabbing`}
           >
             {/* Slot hole punch design at the top */}
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-12 h-2.5 bg-black rounded-full" />
@@ -115,13 +178,40 @@ export default function About() {
             </div>
 
             {/* Profile Avatar Frame */}
-            <div className="w-36 h-36 mx-auto mt-4 rounded-xl border border-white/10 overflow-hidden bg-dark shadow-inner p-1 group">
-              <img
-                src="/profile.png"
-                alt="Sumit Profile"
-                className="w-full h-full object-cover rounded-lg transition-all duration-500"
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-36 h-36 mx-auto mt-4"
+            >
+              {/* Glowing pulse ring */}
+              <motion.div
+                animate={{ scale: [1, 1.15, 1], opacity: [0.6, 0, 0.6] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 rounded-xl border-2 border-accent z-0"
               />
-            </div>
+              {/* Second ring offset */}
+              <motion.div
+                animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0, 0.3] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                className="absolute inset-0 rounded-xl border border-accent/50 z-0"
+              />
+              {/* Photo frame */}
+              <div className="relative w-full h-full rounded-xl border border-white/20 overflow-hidden bg-dark shadow-[0_0_20px_rgba(255,42,42,0.3)] z-10">
+                <img
+                  src="/profile.png"
+                  alt="Sumit Profile"
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                {/* Shimmer overlay */}
+                <motion.div
+                  animate={{ x: ['-100%', '200%'] }}
+                  transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+                  className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] z-20 pointer-events-none"
+                />
+              </div>
+            </motion.div>
 
             {/* User Info */}
             <div className="text-center mt-3">

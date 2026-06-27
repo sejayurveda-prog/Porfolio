@@ -23,6 +23,8 @@ export default function Hero() {
         videoRef.current.pause();
         setShowPlayButton(true);
       } else {
+        // Reset ended state so heading animates fresh
+        setVideoEnded(false);
         // Un‑mute and set volume
         videoRef.current.muted = false;
         videoRef.current.volume = 1;
@@ -92,7 +94,7 @@ export default function Hero() {
         onError={handleVideoError}
         onEnded={handleVideoEnded}
         className={`absolute top-0 left-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${
-          isPlaying ? 'opacity-85' : 'opacity-40'
+          isPlaying ? 'opacity-100' : 'opacity-70'
         } ${videoEnded ? 'scale-110' : ''}`}
         src={videoSrc}
       />
@@ -100,7 +102,7 @@ export default function Hero() {
       {/* Dark Overlay (Fade opacity when video plays, resets on ended) */}
       <div 
         className="absolute inset-0 bg-black z-1 transition-opacity duration-1000 pointer-events-none" 
-        style={{ opacity: isPlaying ? 0.25 : 0.75 }}
+        style={{ opacity: isPlaying ? 0.15 : 0.45 }}
       />
 
       {/* Grid Overlay for subtle premium detail */}
@@ -117,38 +119,49 @@ export default function Hero() {
           }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           style={{ transformOrigin: 'bottom left' }}
-          className="col-span-1 md:col-span-8 flex flex-col justify-center text-left pointer-events-auto pt-28 md:pt-0"
+          className="col-span-1 md:col-span-8 flex flex-col justify-center text-left pointer-events-auto pt-28 md:pt-0 relative"
         >
-          <motion.span
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.2 }}
-            className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-accent block"
-            style={{ marginBottom: isMobile ? '2rem' : '1rem' }}
+          {/* Digital Portfolio label + Heading — hide on mobile when video plays */}
+          <motion.div
+            animate={
+              isMobile && isPlaying
+                ? { opacity: 0, y: -20, pointerEvents: 'none' }
+                : { opacity: 1, y: 0, pointerEvents: 'auto' }
+            }
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
           >
-            Digital Portfolio
-          </motion.span>
-          <motion.h1
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: isPlaying && isMobile ? -30 : 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.37 }}
-            className="text-[8vw] md:text-[4.8vw] font-[900] leading-[0.95] tracking-tighter text-white uppercase"
-            style={{ marginTop: isMobile ? '2rem' : '0' }}
-          >
-            Hi, I'm a <br />
-            <span className="text-stroke font-black block mt-2.5 text-white">
-              Data Analyst And
-            </span>
-            <span className="text-stroke font-black block text-white">
-              MIS Automation Specialist
-            </span>
-          </motion.h1>
+            <motion.span
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.2 }}
+              className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase text-accent block"
+              style={{ marginBottom: isMobile ? '0.75rem' : '1rem', textShadow: '0 0 20px rgba(255,42,42,0.6)' }}
+            >
+              Digital Portfolio
+            </motion.span>
+            <motion.h1
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.37 }}
+              className="text-[8vw] md:text-[4.8vw] font-[900] leading-[0.95] tracking-tighter text-white uppercase"
+              style={{ marginTop: isMobile ? '0' : '0', textShadow: '0 0 40px rgba(255,255,255,0.25), 0 2px 8px rgba(0,0,0,0.8)' }}
+            >
+              Hi, I'm a <br />
+              <span className="text-stroke font-black block mt-2.5 text-white">
+                Data Analyst And
+              </span>
+              <span className="text-stroke font-black block text-white">
+                MIS Automation Specialist
+              </span>
+            </motion.h1>
+          </motion.div>
 
           <motion.p
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.54 }}
-            className="mt-6 text-sm md:text-base text-light-muted max-w-lg leading-relaxed font-light drop-shadow-sm"
+            className="mt-6 text-sm md:text-base text-white/90 max-w-lg leading-relaxed font-light drop-shadow-lg"
+            style={{ display: (isPlaying && isMobile) ? 'none' : undefined, textShadow: '0 1px 6px rgba(0,0,0,0.9)' }}
           >
             Specializing in high-performance React.js dashboards, complex MIS automations, Node.js microservices, and Tailwind CSS. Crafting ultra-scalable data systems and elegant web applications.
           </motion.p>
@@ -158,6 +171,7 @@ export default function Hero() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.7 }}
             className="mt-8 flex flex-wrap gap-4"
+            style={{ display: (isPlaying && isMobile) ? 'none' : undefined }}
           >
             {/* Primary CTA */}
             <a
